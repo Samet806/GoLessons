@@ -11,7 +11,6 @@ import (
 	"github.com/gorilla/mux"
 )
 
-// Movie yapısı
 type Movie struct {
 	ID       string    `json:"id"`
 	Isbn     string    `json:"isbn"`
@@ -33,7 +32,6 @@ func main() {
 	movies = append(movies, Movie{ID: "1", Isbn: "424", Title: "Movie one", Director: &Director{Firstname: "johm", Lastname: "Doe"}})
 	movies = append(movies, Movie{ID: "2", Isbn: "4242", Title: "Movie two", Director: &Director{Firstname: "samet", Lastname: "körük"}})
 
-	// Rotaları tanımlıyoruz
 	r.HandleFunc("/movies", getMovies).Methods("GET")
 	r.HandleFunc("/movies/{id}", getMovie).Methods("GET")
 	r.HandleFunc("/movies", createMovie).Methods("POST")
@@ -67,7 +65,7 @@ func createMovie(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
-	movie.ID = strconv.Itoa(rand.Intn(1000000)) // Basit bir ID oluşturma
+	movie.ID = strconv.Itoa(rand.Intn(1000000))
 	movies = append(movies, movie)
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(movie)
